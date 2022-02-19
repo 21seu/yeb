@@ -2,6 +2,10 @@ package com.ftj.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ftj.server.pojo.Admin;
+import com.ftj.server.pojo.AdminLoginParam;
+import com.ftj.server.pojo.RespBean;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -13,4 +17,11 @@ import com.ftj.server.pojo.Admin;
  */
 public interface IAdminService extends IService<Admin> {
 
+    /**
+     * 登录之后返回token
+     * @param adminLoginParam
+     * @param request
+     * @return
+     */
+    RespBean login(AdminLoginParam adminLoginParam, HttpServletRequest request);
 }
