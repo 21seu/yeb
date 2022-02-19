@@ -40,8 +40,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private AdminMapper adminMapper;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Value("${jwt.tokenHeader}")
-    private String tokenHeader;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
     /**
      * 登录之后返回token
@@ -70,7 +70,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         String token = jwtTokenUtil.generateToken(userDetails);
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
-        tokenMap.put("tokenHeader", tokenHeader);
+        tokenMap.put("tokenHeader", tokenHead);
         return RespBean.success("登录成功", tokenMap);
     }
 

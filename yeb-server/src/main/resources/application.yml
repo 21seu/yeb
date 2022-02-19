@@ -29,7 +29,11 @@ logging:
     com.ftj.server.mapper: debug
 
 jwt:
+  # JWT 存储的请求头
   tokenHeader: Authorization
+  # JWT 加密使用的密钥
   secret: yeb-secret
+  # JWT 的超期限时间 60*60*24
   expiration: 604800
+  # JWT 负载中拿到的开头
   tokenHead: Bearer
