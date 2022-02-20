@@ -12,5 +12,4 @@ import com.ftj.server.pojo.Admin;
  * @since 2021-08-28
  */
 public interface AdminMapper extends BaseMapper<Admin> {
-
 }

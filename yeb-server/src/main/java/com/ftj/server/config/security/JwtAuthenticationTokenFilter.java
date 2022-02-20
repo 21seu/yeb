@@ -30,6 +30,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String header = httpServletRequest.getHeader(tokenHeader);
@@ -42,9 +43,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 //登录
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 //验证token是否有效果，重新设置用户对象
-                if (jwtTokenUtil.validateToken(tokenHead, userDetails)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
+                if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
