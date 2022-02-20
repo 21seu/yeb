@@ -61,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //允许登录访问
-                .antMatchers("/login", "/logout")
-                .permitAll()
+//                .antMatchers("/login", "/logout")
+//                .permitAll()
                 //除了上面，所有请求都要认证
                 .anyRequest()
                 .authenticated()
