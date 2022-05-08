@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -24,7 +24,9 @@ import java.time.LocalDateTime;
  * @since 2021-08-28
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false,of = "name")
 @Accessors(chain = true)
 @TableName("t_joblevel")
 @ApiModel(value="Joblevel对象", description="")
@@ -38,6 +40,7 @@ public class Joblevel implements Serializable {
 
     @ApiModelProperty(value = "职称名称")
     @Excel(name = "职称名称")
+    @NonNull
     private String name;
 
     @ApiModelProperty(value = "职称等级")

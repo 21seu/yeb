@@ -6,25 +6,25 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author fengtj
  * @since 2021-08-28
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false, of = "name")
 @Accessors(chain = true)
 @TableName("t_nation")
-@ApiModel(value="Nation对象", description="")
+@ApiModel(value = "Nation对象", description = "")
 public class Nation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,6 @@ public class Nation implements Serializable {
 
     @ApiModelProperty(value = "民族")
     @Excel(name = "民族")
+    @NonNull
     private String name;
-
-
 }
