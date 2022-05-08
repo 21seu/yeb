@@ -130,7 +130,7 @@
         t_menu m2,
         t_menu m3
         where
-        m1.id = ,2.parentId
+        m1.id = m2.parentId
         and
         m2.id = m3.parentId
         and
