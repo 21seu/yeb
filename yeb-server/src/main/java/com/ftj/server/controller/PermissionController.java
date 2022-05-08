@@ -37,7 +37,7 @@ public class PermissionController {
     }
 
     @ApiOperation(value = "添加角色")
-    @PostMapping("/")
+    @PostMapping("/role")
     public RespBean addRole(@RequestBody Role role) {
         if (!role.getName().startsWith("ROLE_")) {
             role.setName("ROLE_" + role.getName());
