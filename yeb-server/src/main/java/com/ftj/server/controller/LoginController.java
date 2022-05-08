@@ -23,7 +23,8 @@ import java.security.Principal;
 public class LoginController {
 
     @Autowired
-    private IAdminService adminService;;
+    private IAdminService adminService;
+    ;
 
     @ApiOperation(value = "登录之后返回token")
     @PostMapping("/login")
@@ -40,6 +41,7 @@ public class LoginController {
         String username = principal.getName();
         Admin admin = adminService.getAdminByUserName(username);
         admin.setPassword(null);
+        admin.setRoles(adminService.getRoles(admin.getId()));
         return admin;
     }
 

@@ -1,21 +1,22 @@
 package com.ftj.server.config.security;
 
-import com.ftj.server.config.security.compoment.JwtAuthenticationTokenFilter;
-import com.ftj.server.config.security.compoment.RestAuthorizationEntryPoint;
-import com.ftj.server.config.security.compoment.RestfulAccessDeniedHandler;
+import com.ftj.server.config.security.compoment.*;
 import com.ftj.server.pojo.Admin;
 import com.ftj.server.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -31,6 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RestAuthorizationEntryPoint restAuthorizationEntryPoint;
     @Autowired
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    @Autowired
+    private CustomFilter customFilter;
+    @Autowired
+    private CustomUrlDecisionManger customUrlDecisionManger;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -70,6 +75,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //除了上面，所有请求都要认证
                 .anyRequest()
                 .authenticated()
+                //动态权限配置
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+                        object.setAccessDecisionManager(customUrlDecisionManger);
+                        object.setSecurityMetadataSource(customFilter);
+                        return object;
+                    }
+                })
                 .and()
                 //禁用缓存
                 .headers()
@@ -88,9 +102,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return username -> {
             Admin admin = adminService.getAdminByUserName(username);
             if (null != admin) {
+                admin.setRoles(adminService.getRoles(admin.getId()));
                 return admin;
             }
-            return null;
+            throw new UsernameNotFoundException("用户名或密码不正确");
         };
     }
 
