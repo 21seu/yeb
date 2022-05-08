@@ -71,4 +71,10 @@ public class PermissionController {
                 .map(MenuRole::getId)
                 .collect(Collectors.toList());
     }
+
+    @ApiOperation(value = "更新角色菜单")
+    @PutMapping("/")
+    public RespBean updateMenuRole(Integer rid, Integer[] mids) {
+        return iMenuRoleService.updateMenuRole(rid, mids);
+    }
 }

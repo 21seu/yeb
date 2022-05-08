@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 服务实现类
  * </p>
  *
- * @author zhoubin
+ * @author fengtj
  */
 @Service
 public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> implements IMenuRoleService {
