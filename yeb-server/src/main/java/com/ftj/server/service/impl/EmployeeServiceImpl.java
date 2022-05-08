@@ -1,16 +1,23 @@
 package com.ftj.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ftj.server.mapper.EmployeeMapper;
 import com.ftj.server.pojo.Employee;
+import com.ftj.server.pojo.RespBean;
 import com.ftj.server.pojo.RespPageBean;
 import com.ftj.server.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -28,6 +35,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     /**
      * 获取所有员工(分页)
+     *
      * @param currentPage
      * @param size
      * @param employee
@@ -40,5 +48,25 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         IPage<Employee> employeeByPage = employeeMapper.getEmployeeByPage(page, employee, beginDateScope);
         RespPageBean respPageBean = new RespPageBean(employeeByPage.getTotal(), employeeByPage.getRecords());
         return respPageBean;
+    }
+
+    @Override
+    public RespBean maxWorkID() {
+        List<Map<String, Object>> maps = employeeMapper.selectMaps(new QueryWrapper<Employee>().select("max(workID)"));
+        return RespBean.success(String.format("%08d", Integer.parseInt(maps.get(0).get("max(workID)").toString()) + 1));
+    }
+
+    @Override
+    public RespBean addEmp(Employee employee) {
+        //处理合同期限，保留2位小数
+        LocalDate endContract = employee.getEndContract();
+        LocalDate beginContract = employee.getBeginContract();
+        long days = beginContract.until(endContract, ChronoUnit.DAYS);
+        DecimalFormat decimalFormat = new DecimalFormat("##.00");
+        employee.setContractTerm(Double.parseDouble(decimalFormat.format(days/365.00)));
+        if (1==employeeMapper.insert(employee)){
+            return RespBean.success("添加成功");
+        }
+        return RespBean.error("添加失败");
     }
 }
