@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ftj.server.config.security.compoment.JwtTokenUtil;
 import com.ftj.server.mapper.AdminMapper;
+import com.ftj.server.mapper.AdminRoleMapper;
 import com.ftj.server.mapper.RoleMapper;
 import com.ftj.server.pojo.*;
 import com.ftj.server.service.IAdminService;
@@ -43,6 +44,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private AdminMapper adminMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private AdminRoleMapper adminRoleMapper;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Value("${jwt.tokenHead}")
@@ -108,9 +111,20 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return adminMapper.getAllAdmins(AdminUtils.getCurrentAdmin().getId(),keywords);
     }
 
+    /**
+     * 更新操作员角色
+     * @param adminId
+     * @param rids
+     * @return
+     */
     @Override
     @Transactional
     public RespBean updateAdminRole(Integer adminId, Integer[] rids) {
-        return null;
+        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId",adminId));
+        Integer result = adminRoleMapper.addAdminRole(adminId,rids);
+        if (rids.length==result){
+            return RespBean.success("更新成功");
+        }
+        return RespBean.success("更新失败");
     }
 }

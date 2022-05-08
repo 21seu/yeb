@@ -49,7 +49,7 @@ public interface IAdminService extends IService<Admin> {
     List<Admin> getAllAdmins(String keywords);
 
     /**
-     *
+     * 更新操作员角色
      * @param adminId
      * @param rids
      * @return
