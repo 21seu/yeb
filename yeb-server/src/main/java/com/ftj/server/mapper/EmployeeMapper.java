@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author fengtj
@@ -21,10 +21,19 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
 
     /**
      * 获取所有员工(分页)
+     *
      * @param page
      * @param employee
      * @param beginDateScope
      * @return
      */
     IPage<Employee> getEmployeeByPage(Page<Employee> page, @Param("employee") Employee employee, @Param("beginDateScope") LocalDate[] beginDateScope);
+
+    /**
+     * 查询员工
+     *
+     * @param id
+     * @return
+     */
+    List<Employee> getEmployee(@Param("id") Integer id);
 }
