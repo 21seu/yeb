@@ -2,7 +2,7 @@ package com.ftj.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ftj.server.config.security.JwtTokenUtil;
+import com.ftj.server.config.security.compoment.JwtTokenUtil;
 import com.ftj.server.mapper.AdminMapper;
 import com.ftj.server.pojo.Admin;
 import com.ftj.server.pojo.AdminLoginParam;
@@ -54,7 +54,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public RespBean login(AdminLoginParam adminLoginParam, HttpServletRequest request) {
         String captcha = (String) request.getSession().getAttribute("captcha");
-        if (StringUtils.isEmpty(adminLoginParam.getCode()) || captcha.equalsIgnoreCase(adminLoginParam.getCode())) {
+        if (StringUtils.isEmpty(adminLoginParam.getCode()) || !captcha.equalsIgnoreCase(adminLoginParam.getCode())) {
             return RespBean.error("验证码输入错误，请重新输入");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(adminLoginParam.getUsername());

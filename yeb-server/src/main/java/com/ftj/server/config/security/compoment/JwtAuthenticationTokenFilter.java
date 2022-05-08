@@ -1,4 +1,4 @@
-package com.ftj.server.config.security;
+package com.ftj.server.config.security.compoment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.ftj.server.config.security;
+package com.ftj.server.config.security.compoment;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -124,8 +124,9 @@ public class JwtTokenUtil {
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
             e.printStackTrace();
+//            claims = e.getClaims();
         }
         return claims;
     }

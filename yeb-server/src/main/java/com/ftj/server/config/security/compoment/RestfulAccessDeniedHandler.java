@@ -1,4 +1,4 @@
-package com.ftj.server.config.security;
+package com.ftj.server.config.security.compoment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftj.server.pojo.RespBean;
