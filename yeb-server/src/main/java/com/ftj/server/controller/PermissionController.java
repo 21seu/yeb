@@ -1,13 +1,19 @@
 package com.ftj.server.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ftj.server.pojo.Menu;
+import com.ftj.server.pojo.MenuRole;
 import com.ftj.server.pojo.RespBean;
 import com.ftj.server.pojo.Role;
+import com.ftj.server.service.IMenuRoleService;
+import com.ftj.server.service.IMenuService;
 import com.ftj.server.service.IRoleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 权限组
@@ -19,6 +25,10 @@ public class PermissionController {
 
     @Autowired
     private IRoleService iRoleService;
+    @Autowired
+    private IMenuService iMenuService;
+    @Autowired
+    private IMenuRoleService iMenuRoleService;
 
     @ApiOperation(value = "获取所有角色")
     @GetMapping("/")
@@ -45,5 +55,20 @@ public class PermissionController {
             return RespBean.success("删除成功");
         }
         return RespBean.error("删除失败");
+    }
+
+    @ApiOperation(value = "查询所有菜单")
+    @GetMapping("/menus")
+    public List<Menu> getMenus() {
+        return iMenuService.getAllMenus();
+    }
+
+    @ApiOperation(value = "根据角色id查询所有菜单")
+    @GetMapping("/mid/{rid}")
+    public List<Integer> getMidByRid(@PathVariable Integer rid) {
+        return iMenuRoleService.list(new QueryWrapper<MenuRole>().eq("rid", rid))
+                .stream()
+                .map(MenuRole::getId)
+                .collect(Collectors.toList());
     }
 }
