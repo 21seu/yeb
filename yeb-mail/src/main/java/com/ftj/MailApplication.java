@@ -1,7 +1,9 @@
 package com.ftj;
 
+import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Created by fengtj on 2021/8/27 1:21
@@ -11,5 +13,10 @@ public class MailApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MailApplication.class, args);
+    }
+
+    @Bean
+    public Queue queue() {
+        return new Queue("mail.welcome");
     }
 }

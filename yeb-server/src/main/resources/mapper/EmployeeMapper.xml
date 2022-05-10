@@ -165,7 +165,7 @@
     </select>
 
     <!--查询员工-->
-    <select id="getEmployee" resultMap="BaseResultMap">
+    <select id="getEmployee" resultMap="EmployeeInfo">
 
         SELECT
         e.*,

@@ -40,6 +40,18 @@ spring:
         min-idle: 5
 
 
+  # rabbitmq配置
+  rabbitmq:
+    # 用户名
+    username: guest
+    # 密码
+    password: guest
+    # 服务器地址
+    host: localhost
+    # 端口
+    port: 5672
+
+
 server:
   port: 8084
 
