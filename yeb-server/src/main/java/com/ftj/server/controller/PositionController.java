@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,9 +63,13 @@ public class PositionController {
     }
 
     @ApiOperation(value = "批量删除职位信息")
-    @DeleteMapping("/")
-    public RespBean deletePositionByIds(@PathVariable Integer[] ids) {
-        if (positionService.removeByIds(Arrays.asList(ids))) {
+    @RequestMapping("/batchDel")
+    public RespBean deletePositionByIds(@RequestParam("ids") String ids) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < ids.split(",").length; i++) {
+            list.add(Integer.parseInt(ids.split(",")[i]));
+        }
+        if (positionService.removeByIds(list)) {
             return RespBean.success("删除成功");
         }
         return RespBean.error("删除失败");
