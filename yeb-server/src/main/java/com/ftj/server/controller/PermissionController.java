@@ -68,7 +68,7 @@ public class PermissionController {
     public List<Integer> getMidByRid(@PathVariable Integer rid) {
         return iMenuRoleService.list(new QueryWrapper<MenuRole>().eq("rid", rid))
                 .stream()
-                .map(MenuRole::getId)
+                .map(MenuRole::getMid)
                 .collect(Collectors.toList());
     }
 
