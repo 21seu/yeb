@@ -50,6 +50,10 @@ spring:
     host: localhost
     # 端口
     port: 5672
+    #消息确认回调
+    publisher-confirm-type: correlated
+    #消息失败回调
+    publisher-returns: true
 
 
 server:

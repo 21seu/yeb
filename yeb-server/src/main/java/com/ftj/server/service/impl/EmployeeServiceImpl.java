@@ -87,7 +87,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
                     .status(0)
                     .routeKey(MailConstants.MAIL_ROUTING_KEY_NAME)
                     .exchange(MailConstants.MAIL_EXCHANGE_NAME)
-                    .count(MailConstants.MAX_TRY_COUNT)
+                    .count(0)
                     .tryTime(LocalDateTime.now().plusMinutes(MailConstants.MSG_TIMEOUT))
                     .createTime(LocalDateTime.now())
                     .updateTime(LocalDateTime.now())
