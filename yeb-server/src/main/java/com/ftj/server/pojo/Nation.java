@@ -20,6 +20,8 @@ import java.io.Serializable;
  * @since 2021-08-28
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false, of = "name")
 @Accessors(chain = true)
