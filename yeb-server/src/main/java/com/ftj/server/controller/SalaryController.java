@@ -55,9 +55,9 @@ public class SalaryController {
     @PutMapping("/")
     public RespBean updateSalary(@RequestBody Salary salary) {
         if (salaryService.updateById(salary)) {
-            return RespBean.success("添加成功");
+            return RespBean.success("更新成功");
         }
-        return RespBean.error("添加失败");
+        return RespBean.error("更新失败");
     }
 
 }
